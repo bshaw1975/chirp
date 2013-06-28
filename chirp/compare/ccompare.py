@@ -119,7 +119,7 @@ def run_comparisons(storager, comparator, shm_dict, shm_manager, consumer,
 
     print >> cout, "** Comparison is symmetric: %s" % comparator.symmetric
     nq = 0
-    for ref, tgt in storager.pairs():
+    for ref, tgt in storager.singles():
         task_queue.put((ref, tgt))
         nq += 1
     print >> cout, "** Number of comparisons: %d " % nq
@@ -142,6 +142,10 @@ def main(argv=None, cout=None):
         argv = sys.argv[1:]
     if cout is None:
         cout = sys.stdout
+
+    if 0==len(argv):
+        print _scriptdoc
+        return -1
 
     import getopt
     from chirp.common.config import configoptions

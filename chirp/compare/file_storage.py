@@ -43,7 +43,7 @@ class file_storage(_base_storage):
         import os.path
         from glob import iglob
         self.signals = [(i, f) for i, f in
-                        enumerate(iglob(os.path.join(signal_dir, '*' + self.file_pattern)))]
+                        enumerate(sorted(iglob(os.path.join(signal_dir,'*' + self.file_pattern))))]
 
     def output_signals(self):
         """

@@ -25,6 +25,14 @@ class base_storage(object):
         """ The number of signals stored in the object """
         return len(self.signals)
 
+    def singles(self):
+        """ Yields the keys for the pairs of signals to be compared """
+        from itertools import product, islice
+        items = [k for k,v in self.signals]
+        first = islice(items, 0, 1)
+        other = islice(items, 1, None)
+        for v1,v2 in product(first,other): yield v1,v2
+
     def pairs(self):
         """ Yields the keys for the pairs of signals to be compared """
         from itertools import product
