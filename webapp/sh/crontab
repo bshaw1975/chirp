@@ -1,0 +1,5 @@
+# wake up tracker every 10 minutes
+2,12,22,32,42,52 * * * * DATE=$(date); echo "--wake-- $DATE" >> ~/www/html/upload/pitch/fifo
+
+# restart tracker on reboot
+@reboot   sleep 1; cd ~/www/html/sh/; nohup ./forfifo.sh &

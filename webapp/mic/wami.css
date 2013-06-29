@@ -1,0 +1,31 @@
+/* most of the style is set in mic.js
+ * I didn't feel like converting the js
+ */
+#wami { 
+    display: table-cell;
+    left: 4px;
+}
+#calltype {
+    font-size:small;
+    top:220px;
+}
+#recflashwarn {
+    font-size:small;
+}
+#recsubmit {
+    /*shown by script at right time*/
+    display:none;
+    cursor:pointer; 
+    vertical-align:top;
+    width:56px;
+    height:62px; 
+    margin-left:2px;
+    background:url('/mic/hdd.gif') no-repeat transparent 0px 4px;
+    border-bottom:8px; /*ie8*/
+    border-radius:8px;
+    box-shadow: 0px 3px 5px #000;
+    -moz-border-radius:8px;
+    -webkit-border-radius:8px;
+    -moz-box-shadow: 0px 3px 5px #000;
+    -webkit-box-shadow: 0px 3px 5px #000;
+}
