@@ -121,7 +121,7 @@ $db->close();
         treetop = Y.one('#treetop');
         treeview = new Y.TreeView({
             container : "#treeview",
-            lazyRender: false,
+            lazyRender: true,
             nodes://undefined
             <?php
                 print(asJary($rows));
