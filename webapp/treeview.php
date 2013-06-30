@@ -69,29 +69,28 @@ $row['c2id'], $row['c2name'], $row['u2id'],$row['u2name'],$row['u2filen'],$row['
 $db=webapp::newRoMysqli();
 $rs = webapp::query($db,'
  select 
-    round(min(ifnull(clip_diff.diff, -1)),4) as diff,
+    df.diff,
     c1.id as c1id, c1.name as c1name, u1.id as u1id, u1.name as u1name, u1.filen as u1filen, u1.exten as u1exten,
     c2.id as c2id, c2.name as c2name, u2.id as u2id, u2.name as u2name, u2.filen as u2filen, u2.exten as u2exten
  from 
     contact as c1 /* get outer contacts */
     join contact_upl as cup1 on c1.id=cup1.con_id 
     join upload as u1 on u1.id=cup1.upl_id /* get outer uploads */
-    left join clip_diff on ( /* get clip diff */
-        u1.id =clip_diff.upl1_id or
-        u1.id =clip_diff.upl2_id /* 1st or 2nd ID */
+    left join clip_diff as df on ( /* get min clip diff */
+        df.diff = (
+            select min(diff) from clip_diff where upl1_id = u1.id or upl2_id = u1.id
+        ) and ( 
+            u1.id =df.upl1_id or u1.id =df.upl2_id
+        )
     )
     left join upload as u2 on ( /* get inner upload */
         u2.id!=u1.id and ( /* not same as original */
-            u2.id =clip_diff.upl1_id or
-            u2.id =clip_diff.upl2_id /* 1st or 2nd ID */
+            u2.id =df.upl1_id or u2.id =df.upl2_id
         )
     )
-    left join contact_upl as cup2 on ( /* get inner contact */
-        u2.id=cup2.upl_id and c1.id!=cup2.con_id /* not outer */
-    )
+    left join contact_upl as cup2 on u2.id=cup2.upl_id
     left join contact as c2 on c2.id=cup2.con_id
- group by c1.id, u1.id 
- order by c1.id desc, ifnull(u2.id,0) desc
+ order by c1.id desc
 ');
 
 $rows = array();
